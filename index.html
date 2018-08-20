@@ -3,10 +3,46 @@
   <head>
     <meta charset="utf-8">
     <title>codyMalcolm's Pomodoro Clock</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="main.css">
   </head>
   <body>
-
+    <header>
+      <h1>Pomodoro Clock</h1>
+    </header>
+    <div class="container">
+      <div class="settings">
+        <div class="phase-container">
+          <p>Session</p>
+          <div class="time-controls">
+            <p class="time-control" data-val= "-1" data-phase="session"><i class="material-icons md-24">keyboard_arrow_down</i></p>
+            <p class="session-time">25</p>
+            <p class="time-control" data-val= "1" data-phase="session"><i class="material-icons md-24">keyboard_arrow_up</i></p>
+          </div>
+        </div>
+        <div class="phase-container">
+          <p>Break</p>
+          <div class="time-controls">
+            <p class="time-control" data-val= "-1" data-phase="break"><i class="material-icons md-24">keyboard_arrow_down</i></p>
+            <p class="break-time">5</p>
+            <p class="time-control" data-val= "1" data-phase="break"><i class="material-icons md-24">keyboard_arrow_up</i></p>
+          </div>
+        </div>
+      </div>
+      <div class="display-container">
+        <div class="display">
+          <p class="phase">Session</p>
+          <p class="time">25:00</p>
+        </div>
+        <div class="controls">
+          <p class="stop"><i class="material-icons md-48">stop</i></p>
+          <p class="play"><i class="material-icons md-48">play_arrow</i></p>
+          <p class="pause"><i class="material-icons md-48">pause</i></p>
+          <p class="reset"><i class="material-icons md-48">cached</i></p>
+        </div>
+      </div>
+    </div>
     <script src="scripts.js">
     </script>
   </body>
