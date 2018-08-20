@@ -50,21 +50,22 @@ function play() {
     return minutes * 60;
   }
 
+  time.textContent = `${sessionTime.textContent}:00`;
+  time.style.color = 'white';
   disableTimeControls();
 
   sessionSeconds = sessionSeconds || parseSeconds(parseInt(sessionTime.textContent));
   breakSeconds = breakSeconds || parseSeconds(parseInt(breakTime.textContent));
-
-  runClock();
+  timer = setInterval(runClock, 1000);
 }
 
 function pause() {
-  clearTimeout(timer);
+  clearInterval(timer);
 }
 
 function reset() {
   enableTimeControls();
-  clearTimeout(timer);
+  clearInterval(timer);
   sessionSeconds = 0;
   breakSeconds = 0;
   sessionTime.textContent = '25';
@@ -75,7 +76,7 @@ function reset() {
 
 function stop() {
   enableTimeControls();
-  clearTimeout(timer);
+  clearInterval(timer);
   sessionSeconds = 0;
   breakSeconds = 0;
   time.textContent = `${sessionTime.textContent}:00`;
@@ -111,8 +112,7 @@ function runClock() {
     breakSeconds--;
     time.textContent = parseTime(breakSeconds);
   } else {
-    clearTimeout(timer);
+    clearInterval(timer);
     play();
   }
-  timer = setTimeout(runClock, 1000);
 }
