@@ -2,7 +2,7 @@
 
 ## Objective
 
-To build a Pomodoro Clock using HTMl, CSS, and Javascript.
+To build a Pomodoro Clock using HTML, CSS, and Javascript.
 
 #### Specifications
 
