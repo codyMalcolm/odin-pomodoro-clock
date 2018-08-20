@@ -44,7 +44,7 @@ header {
 
 .settings {
   background-color: black;
-  height: 30%;
+  height: 32%;
   display: flex;
 }
 
@@ -68,7 +68,7 @@ header {
 
 .display-container {
   background-color: black;
-  height: 60%;
+  height: 62%;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -84,6 +84,7 @@ header {
 
 .phase {
   font-size: 2.5em;
+  margin-top: 0.125em;
 }
 
 .time {
