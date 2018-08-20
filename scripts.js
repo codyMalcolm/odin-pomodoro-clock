@@ -4,14 +4,26 @@ const stopButton = document.querySelector('.stop');
 const pauseButton = document.querySelector('.pause');
 const resetButton = document.querySelector('.reset');
 const time = document.querySelector('.time');
+const sessionTime = document.querySelector('.session-time');
+const breakTime = document.querySelector('.break-time');
+const beep = document.querySelector('audio');
 
 let sessionSeconds;
 let breakSeconds;
 let timer;
 
-timeControls.forEach(c => {
-  c.addEventListener('click', updateTime)
-});
+function enableTimeControls() {
+  timeControls.forEach(c => {
+    c.addEventListener('click', updateTime)
+  });
+}
+function disableTimeControls() {
+  timeControls.forEach(c => {
+    c.removeEventListener('click', updateTime)
+  });
+}
+
+enableTimeControls();
 
 playButton.addEventListener('click', play);
 stopButton.addEventListener('click', stop);
@@ -22,15 +34,15 @@ function updateTime() {
   const phase = this.dataset.phase;
   let phaseTime;
   if (phase === "session") {
-    phaseTime = document.querySelector('.session-time');
+    phaseTime = sessionTime;
   }
   if (phase === "break") {
-    phaseTime = document.querySelector('.break-time');
+    phaseTime = breakTime;
   }
   const value = parseInt(phaseTime.textContent) + parseInt(this.dataset.val);
 
   if (value > 0 && value <=60) phaseTime.textContent = value;
-  time.textContent = document.querySelector('.session-time').textContent + ':00';
+  time.textContent = sessionTime.textContent + ':00';
 }
 
 function play() {
@@ -38,8 +50,10 @@ function play() {
     return minutes * 60;
   }
 
-  sessionSeconds = sessionSeconds || parseSeconds(parseInt(document.querySelector('.session-time').textContent));
-  breakSeconds = breakSeconds || parseSeconds(parseInt(document.querySelector('.break-time').textContent));
+  disableTimeControls();
+
+  sessionSeconds = sessionSeconds || parseSeconds(parseInt(sessionTime.textContent));
+  breakSeconds = breakSeconds || parseSeconds(parseInt(breakTime.textContent));
 
   runClock();
 }
@@ -49,20 +63,22 @@ function pause() {
 }
 
 function reset() {
+  enableTimeControls();
   clearTimeout(timer);
   sessionSeconds = 0;
   breakSeconds = 0;
-  document.querySelector('.session-time').textContent = '25';
-  document.querySelector('.break-time').textContent = '5';
+  sessionTime.textContent = '25';
+  breakTime.textContent = '5';
   time.textContent = '25:00';
   time.style.color = 'white';
 }
 
 function stop() {
+  enableTimeControls();
   clearTimeout(timer);
   sessionSeconds = 0;
   breakSeconds = 0;
-  time.textContent = `${document.querySelector('.session-time').textContent}:00`;
+  time.textContent = `${sessionTime.textContent}:00`;
   time.style.color = 'white';
 }
 
@@ -71,16 +87,26 @@ function runClock() {
     return ('0' + Math.floor(seconds / 60)).slice(-2) + ':' + ('0' + seconds % 60).slice(-2);
   }
   if (sessionSeconds > 0) {
-    time.style.color = 'red';
-    if (sessionSeconds > 15) time.style.color = 'yellow';
-    if (sessionSeconds > 60) time.style.color = 'green';
+    if (sessionSeconds <=3) beep.play();
+    if (sessionSeconds > 60) {
+      time.style.color = 'green';
+    } else if (sessionSeconds > 15) {
+      time.style.color = 'yellow';
+    } else {
+      time.style.color = 'red';
+    }
     document.querySelector('.phase').textContent = 'Session';
     sessionSeconds--;
     time.textContent = parseTime(sessionSeconds);
   } else if (breakSeconds > 0){
-    time.style.color = 'red';
-    if (breakSeconds > 15) time.style.color = 'yellow';
-    if (breakSeconds > 60) time.style.color = 'green';
+    if (breakSeconds <=3) beep.play();
+    if (breakSeconds > 60) {
+      time.style.color = 'green';
+    } else if (breakSeconds > 15) {
+      time.style.color = 'yellow';
+    } else {
+      time.style.color = 'red';
+    }
     document.querySelector('.phase').textContent = 'Break';
     breakSeconds--;
     time.textContent = parseTime(breakSeconds);
@@ -88,5 +114,5 @@ function runClock() {
     clearTimeout(timer);
     play();
   }
-  timer = setTimeout(runClock, 200);
+  timer = setTimeout(runClock, 1000);
 }
