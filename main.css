@@ -6,7 +6,7 @@
 body {
   background-color: grey;
   display: grid;
-  grid-template: repeat(3, 1fr) / 1fr 30em 1fr;
+  grid-template: repeat(3, 1fr) / 1fr 31em 1fr;
   height: 100vh;
 }
 
